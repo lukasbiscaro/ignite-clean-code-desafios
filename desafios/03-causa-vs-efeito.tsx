@@ -1,7 +1,7 @@
 // Causa vs Efeito
 import { useEffect, useState } from "react"
 
-interface User {
+interface UserInformation {
   name: string;
   github: string;
 }
@@ -18,24 +18,24 @@ function fetchUser() {
 }
 
 export function UserProfile() {
-  const [shouldNotRenderUserName, setShouldNotRenderUserName] = useState(false)
-  const [userData, setUserData] = useState<User>()
+  const [isUserProfileInformationLoading, setIsUserProfileInformationLoading] = useState(false)
+  const [userData, setUserData] = useState<UserInformation>()
 
   useEffect(() => {
-    function loadUser() {
-      setShouldNotRenderUserName(true)
+    function getUserInformation() {
+      setIsUserProfileInformationLoading(true)
 
       const fetchUserResponse = fetchUser()
 
       setUserData(fetchUserResponse.data.user)
-      
-      setShouldNotRenderUserName(false)
+
+      setIsUserProfileInformationLoading(false)
     }
 
-    loadUser()
+    getUserInformation()
   })
 
-  if (shouldNotRenderUserName) {
+  if (isUserProfileInformationLoading) {
     return <p>Loading...</p>
   }
 
